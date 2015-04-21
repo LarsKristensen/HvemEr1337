@@ -1,0 +1,75 @@
+﻿@{
+    ViewBag.Title = "Index";
+}
+<div class="overhead text-center"></div>
+<div class="container">
+    <div class="col-md-4 col-md-offset-4">
+    <div class="row text-center">
+        <h1>Hvem skal drikke?</h1>
+    </div>
+    
+    <div class="row">
+        <div class="btn btn-success btnDrink">Find nyt navn</div>
+        <div class="btn btn-warning btnUnDrink">Clear</div>
+    </div>
+
+    <div class="row" id="stuff">
+        <div id="results">
+            <div class="btn btn-default" id="name-Lars">Lars : <span>0</span></div>
+            <div class="btn btn-default" id="name-Kasper">Kasper : <span>0</span></div>
+            <div class="btn btn-default" id="name-Nicolai">Nicolai : <span>0</span></div>
+            <div class="btn btn-default" id="name-Jannick">Jannick : <span>0</span></div>
+            <div class="btn btn-default" id="name-Stefan">Stefan : <span>0</span></div>
+            <div class="btn btn-default" id="name-Simon">Simon : <span>0</span></div>
+            <div class="btn btn-default" id="name-Kedde">Kedde : <span>0</span></div>
+            <div class="btn btn-default" id="name-Las">Las : <span>0</span></div>
+        </div>
+    </div>
+</div>
+    </div>
+
+<script>
+
+
+    $(document).ready(function () {
+        var navne = ["Lars", "Kasper", "Nicolai", "Jannick", "Stefan", "Simon", "Kedde", "Las"];
+
+        var associativeArray = {};
+
+        $.each(navne, function (i) { associativeArray[navne[i]] = 0 });
+
+        if (localStorage.getItem("database") != null) {
+            associativeArray = JSON.parse(localStorage.getItem("database"));
+            for (var x = 0; x < navne.length; x++)
+            {
+                $("#name-" + navne[x]).children().text(associativeArray[navne[x]]);
+            }
+        }
+        else {
+            localStorage.setItem("database", JSON.stringify(associativeArray));
+        }
+
+        $("body").on("click", ".btnDrink", function () {
+            var id = Math.floor(Math.random() * 8);
+            associativeArray[navne[id]]++;
+            localStorage.setItem("database", JSON.stringify(associativeArray));
+            $(".btn-danger").removeClass("btn-danger");
+            $("#name-" + navne[id]).children().text(associativeArray[navne[id]]).parent().addClass("btn-danger");
+            $(".overhead").text("Drik " + navne[id] + ", YEAH!!");
+            $(".overhead").fadeIn();
+        });
+
+        $("body").on("click", ".btnUnDrink", function () {
+            $.each(navne, function (i) { associativeArray[navne[i]] = 0 });
+            localStorage.setItem("database", JSON.stringify(associativeArray));
+            for (var x = 0; x < navne.length; x++) {
+                $("#name-" + navne[x]).children().text(associativeArray[navne[x]]);
+            }
+            $(".btn-danger").removeClass("btn-danger");
+        });
+
+        $("body").on("click", ".overhead", function () {
+            $(".overhead").fadeOut();
+        });
+    });
+</script>
