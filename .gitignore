@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/HvemEr1337/bin
+/HvemEr1337/obj
+/HvemEr1337/Properties/PublishProfiles
+/HvemEr1337/HvemEr1337.csproj.user
